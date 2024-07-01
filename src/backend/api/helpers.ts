@@ -1,12 +1,3 @@
-import { ipcRenderer, TitleBarOverlay } from 'electron'
-import {
-  Runner,
-  WineCommandArgs,
-  ConnectivityStatus,
-  GameSettings,
-  RunWineCommandArgs
-} from 'common/types'
-import { GOGCloudSavesLocation } from 'common/types/gog'
 import {
   makeListenerCaller as lc,
   makeHandlerInvoker as hi,
@@ -32,91 +23,49 @@ export const writeConfig = hi('writeConfig')
 
 export const kill = hi('kill')
 
-export const abort = (id: string) => ipcRenderer.send('abort', id)
+export const abort = lc('abort')
 
-export const getUserInfo = async () => ipcRenderer.invoke('getUserInfo')
+export const getUserInfo = hi('getUserInfo')
 
-export const getAmazonUserInfo = async () =>
-  ipcRenderer.invoke('getAmazonUserInfo')
+export const getAmazonUserInfo = hi('getAmazonUserInfo')
 
-export const syncSaves = async (args: {
-  arg: string | undefined
-  path: string
-  appName: string
-  runner: Runner
-}) => ipcRenderer.invoke('syncSaves', args)
+export const syncSaves = hi('syncSaves')
 
-export const getDefaultSavePath = async (
-  appName: string,
-  runner: Runner,
-  alreadyDefinedGogSaves: GOGCloudSavesLocation[] = []
-) =>
-  ipcRenderer.invoke(
-    'getDefaultSavePath',
-    appName,
-    runner,
-    alreadyDefinedGogSaves
-  )
-export const getGameInfo = async (appName: string, runner: Runner) =>
-  ipcRenderer.invoke('getGameInfo', appName, runner)
-export const getExtraInfo = async (appName: string, runner: Runner) =>
-  ipcRenderer.invoke('getExtraInfo', appName, runner)
+export const getDefaultSavePath = hi('getDefaultSavePath')
+export const getGameInfo = hi('getGameInfo')
+export const getExtraInfo = hi('getExtraInfo')
 
-export const getLaunchOptions = async (appName: string, runner: Runner) =>
-  ipcRenderer.invoke('getLaunchOptions', appName, runner)
+export const getLaunchOptions = hi('getLaunchOptions')
 
-export const getPrivateBranchPassword = async (appName: string) =>
-  ipcRenderer.invoke('getPrivateBranchPassword', appName)
-export const setPrivateBranchPassword = async (
-  appName: string,
-  password: string
-) => ipcRenderer.invoke('setPrivateBranchPassword', appName, password)
+export const getPrivateBranchPassword = hi('getPrivateBranchPassword')
+export const setPrivateBranchPassword = hi('setPrivateBranchPassword')
 
 // REDmod integration
-export const getAvailableCyberpunkMods = async () =>
-  ipcRenderer.invoke('getAvailableCyberpunkMods')
-export const setCyberpunModConfig = async (props: {
-  enabled: boolean
-  modsToLoad: string[]
-}) => ipcRenderer.invoke('setCyberpunkModConfig', props)
+export const getAvailableCyberpunkMods = hi('getAvailableCyberpunkMods')
+export const setCyberpunModConfig = hi('setCyberpunkModConfig')
 
-export const getGameSettings = async (
-  appName: string,
-  runner: Runner
-): Promise<GameSettings | null> =>
-  ipcRenderer.invoke('getGameSettings', appName, runner)
+export const getGameSettings = hi('getGameSettings')
 
 export const getInstallInfo = hi('getInstallInfo')
 
-export const runWineCommand = async (args: WineCommandArgs) =>
-  ipcRenderer.invoke('runWineCommand', args)
+export const runWineCommand = hi('runWineCommand')
 
-export const runWineCommandForGame = async (args: RunWineCommandArgs) =>
-  ipcRenderer.invoke('runWineCommandForGame', args)
+export const runWineCommandForGame = hi('runWineCommandForGame')
 
 export const onConnectivityChanged = fls('connectivity-changed')
 
-export const getConnectivityStatus = async () =>
-  ipcRenderer.invoke('get-connectivity-status')
+export const getConnectivityStatus = hi('get-connectivity-status')
 
-export const setConnectivityOnline = async () =>
-  ipcRenderer.send('set-connectivity-online')
+export const setConnectivityOnline = lc('set-connectivity-online')
 
-export const connectivityChanged = async (newStatus: ConnectivityStatus) =>
-  ipcRenderer.send('connectivity-changed', newStatus)
+export const connectivityChanged = lc('connectivity-changed')
 
-export const isNative = async (args: { appName: string; runner: Runner }) =>
-  ipcRenderer.invoke('isNative', args)
+export const isNative = hi('isNative')
 
-export const getThemeCSS = async (theme: string) =>
-  ipcRenderer.invoke('getThemeCSS', theme)
+export const getThemeCSS = hi('getThemeCSS')
 
-export const getCustomThemes = async () => ipcRenderer.invoke('getCustomThemes')
+export const getCustomThemes = hi('getCustomThemes')
 
-export const setTitleBarOverlay = (options: TitleBarOverlay) =>
-  ipcRenderer.send('setTitleBarOverlay', options)
+export const setTitleBarOverlay = lc('setTitleBarOverlay')
 
-export const isGameAvailable = async (args: {
-  appName: string
-  runner: Runner
-}) => ipcRenderer.invoke('isGameAvailable', args)
+export const isGameAvailable = hi('isGameAvailable')

@@ -38,7 +38,13 @@ function frontendListenerSlot<ChannelName extends keyof FrontendMessages>(
       e: IpcRendererEvent,
       ...args: Parameters<FrontendMessages[ChannelName]>
     ) => void
-  ) => ipcRenderer.on(channel, listener as never)
+  ) => {
+    ipcRenderer.on(channel, listener as never)
+
+    return () => {
+      ipcRenderer.removeListener(channel, listener as never)
+    }
+  }
 }
 
 export { makeListenerCaller, makeHandlerInvoker, frontendListenerSlot }

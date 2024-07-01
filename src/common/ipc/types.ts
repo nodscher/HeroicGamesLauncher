@@ -109,11 +109,11 @@ export interface SyncIPCFunctions {
   unmaximizeWindow: () => void
   closeWindow: () => void
   setTitleBarOverlay: (options: TitleBarOverlay) => void
-  winetricksInstall: (args: {
-    runner: Runner
-    appName: string
+  winetricksInstall: (
+    appName: string,
+    runner: Runner,
     component: string
-  }) => void
+  ) => void
   changeGameVersionPinnedStatus: (
     appName: string,
     runner: Runner,
@@ -129,14 +129,8 @@ export interface AsyncIPCFunctions {
   runWineCommand: (
     args: WineCommandArgs
   ) => Promise<{ stdout: string; stderr: string }>
-  winetricksInstalled: (args: {
-    runner: Runner
-    appName: string
-  }) => Promise<string[]>
-  winetricksAvailable: (args: {
-    runner: Runner
-    appName: string
-  }) => Promise<string[]>
+  winetricksInstalled: (appName: string, runner: Runner) => Promise<string[]>
+  winetricksAvailable: (appName: string, runner: Runner) => Promise<string[]>
   checkGameUpdates: () => Promise<string[]>
   getEpicGamesStatus: () => Promise<boolean>
   updateAll: () => Promise<({ status: 'done' | 'error' | 'abort' } | null)[]>
@@ -281,7 +275,7 @@ export interface AsyncIPCFunctions {
   toggleDXVKNVAPI: (args: ToolArgs) => Promise<boolean>
   pathExists: (path: string) => Promise<boolean>
   getLaunchOptions: (appName: string, runner: Runner) => Promise<LaunchOption[]>
-  getGameOverride: () => Promise<GameOverride | null>
+  getGameOverride: () => Promise<GameOverride>
   getGameSdl: (appName: string) => Promise<SelectiveDownload[]>
   getPlaytimeFromRunner: (
     runner: Runner,

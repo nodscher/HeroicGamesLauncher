@@ -1,6 +1,9 @@
-import { DownloadManagerState } from './../../common/types'
-import { ipcRenderer } from 'electron'
 import { DMQueueElement, InstallParams, UpdateParams } from 'common/types'
+import {
+  makeListenerCaller as lc,
+  makeHandlerInvoker as hi,
+  frontendListenerSlot as fls
+} from 'common/ipc/frontend'
 
 export const install = async (args: InstallParams) => {
   const dmQueueElement: DMQueueElement = {
@@ -54,30 +57,14 @@ export const updateGame = (args: UpdateParams) => {
   ipcRenderer.invoke('addToDMQueue', dmQueueElement)
 }
 
-export const getDMQueueInformation = async () =>
-  ipcRenderer.invoke('getDMQueueInformation')
+export const getDMQueueInformation = hi('getDMQueueInformation')
 
-export const removeFromDMQueue = (appName: string) =>
-  ipcRenderer.send('removeFromDMQueue', appName)
+export const removeFromDMQueue = lc('removeFromDMQueue')
 
-export const handleDMQueueInformation = (
-  onChange: (
-    e: Electron.IpcRendererEvent,
-    elements: DMQueueElement[],
-    state: DownloadManagerState
-  ) => void
-) => {
-  ipcRenderer.on('changedDMQueueInformation', onChange)
-  return () => {
-    ipcRenderer.removeListener('changedDMQueueInformation', onChange)
-  }
-}
+export const handleDMQueueInformation = fls('changedDMQueueInformation')
 
-export const cancelDownload = (removeDownloaded: boolean) =>
-  ipcRenderer.send('cancelDownload', removeDownloaded)
+export const cancelDownload = lc('cancelDownload')
 
-export const resumeCurrentDownload = () =>
-  ipcRenderer.send('resumeCurrentDownload')
+export const resumeCurrentDownload = lc('resumeCurrentDownload')
 
-export const pauseCurrentDownload = () =>
-  ipcRenderer.send('pauseCurrentDownload')
+export const pauseCurrentDownload = lc('pauseCurrentDownload')
