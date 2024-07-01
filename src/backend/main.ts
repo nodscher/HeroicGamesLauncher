@@ -1577,10 +1577,6 @@ addIpcListener('setTitleBarOverlay', (e, args) => {
 
 addIpcListener('addNewApp', (e, args) => addNewApp(args))
 
-addIpcHandler('removeApp', async (e, args) => {
-  gameManagerMap[args.runner].uninstall(args)
-})
-
 addIpcHandler('isNative', (e, { appName, runner }) => {
   return gameManagerMap[runner].isNative(appName)
 })

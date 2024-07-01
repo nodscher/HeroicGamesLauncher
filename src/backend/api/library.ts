@@ -1,4 +1,4 @@
-import { Runner, GameStatus } from 'common/types'
+import { GameStatus } from 'common/types'
 import {
   makeListenerCaller as lc,
   makeHandlerInvoker as hi,
@@ -9,28 +9,7 @@ export const removeFolder = lc('removeFolder')
 
 export const openDialog = hi('openDialog')
 
-export const uninstall = async (
-  appName: string,
-  runner: Runner,
-  shouldRemovePrefix: boolean,
-  shouldRemoveSetting: boolean
-) => {
-  if (runner === 'sideload') {
-    return ipcRenderer.invoke('removeApp', {
-      appName,
-      shouldRemovePrefix,
-      runner
-    })
-  } else {
-    return ipcRenderer.invoke(
-      'uninstall',
-      appName,
-      runner,
-      shouldRemovePrefix,
-      shouldRemoveSetting
-    )
-  }
-}
+export const uninstall = hi('uninstall')
 
 export const repair = hi('repair')
 
