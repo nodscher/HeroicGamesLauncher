@@ -129,6 +129,7 @@ import { initTrayIcon } from './tray_icon/tray_icon'
 import { createMainWindow, getMainWindow, isFrameless } from './main_window'
 import {
   addListener as addIpcListener,
+  addOneTimeListener as addOneTimeIpcListener,
   addHandler as addIpcHandler,
   sendFrontendMessage
 } from 'common/ipc/backend'
@@ -474,7 +475,7 @@ if (!gotTheLock) {
 
 addIpcListener('notify', (event, args) => notify(args))
 
-ipcMain.once('frontendReady', () => {
+addOneTimeIpcListener('frontendReady', () => {
   logInfo('Frontend Ready', LogPrefix.Backend)
   handleProtocol([openUrlArgument, ...process.argv])
 

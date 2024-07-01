@@ -18,6 +18,16 @@ function addListener<ChannelName extends keyof SyncIPCFunctions>(
   ipcMain.on(channel, listener as never)
 }
 
+function addOneTimeListener<ChannelName extends keyof SyncIPCFunctions>(
+  channel: ChannelName,
+  listener: (
+    e: IpcMainEvent,
+    ...args: Parameters<SyncIPCFunctions[ChannelName]>
+  ) => void
+) {
+  ipcMain.once(channel, listener as never)
+}
+
 function addHandler<ChannelName extends keyof AsyncIPCFunctions>(
   channel: ChannelName,
   handler: (
@@ -46,4 +56,4 @@ function sendFrontendMessage<ChannelName extends keyof FrontendMessages>(
   return true
 }
 
-export { addListener, addHandler, sendFrontendMessage }
+export { addListener, addOneTimeListener, addHandler, sendFrontendMessage }
