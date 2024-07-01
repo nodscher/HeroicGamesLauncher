@@ -1,6 +1,6 @@
 import type { OpenDialogOptions, TitleBarOverlay } from 'electron'
 
-import type {
+import {
   Runner,
   DiskSpaceData,
   Tools,
@@ -36,7 +36,8 @@ import type {
   DialogType,
   ButtonOptions,
   RecentGame,
-  WineManagerStatus
+  WineManagerStatus,
+  UpdateParams
 } from 'common/types'
 import type { GameOverride, SelectiveDownload } from 'common/types/legendary'
 import type { GOGCloudSavesLocation, UserData } from 'common/types/gog'
@@ -119,6 +120,8 @@ export interface SyncIPCFunctions {
     runner: Runner,
     status: boolean
   ) => void
+  install: (args: InstallParams) => void
+  update: (args: UpdateParams) => void
 }
 
 export interface AsyncIPCFunctions {
@@ -187,9 +190,6 @@ export interface AsyncIPCFunctions {
   refreshLibrary: (library?: Runner | 'all') => Promise<void>
   launch: (args: LaunchParams) => StatusPromise
   openDialog: (args: OpenDialogOptions) => Promise<string | false>
-  install: (
-    args: InstallParams
-  ) => Promise<{ status: 'error' | 'done' | 'abort' }>
   uninstall: (
     appName: string,
     runner: Runner,
@@ -199,7 +199,6 @@ export interface AsyncIPCFunctions {
   repair: (appName: string, runner: Runner) => Promise<void>
   moveInstall: (args: MoveGameArgs) => Promise<void>
   importGame: (args: ImportGameArgs) => StatusPromise
-  updateGame: (appName: string, runner: Runner) => StatusPromise
   changeInstallPath: (args: MoveGameArgs) => Promise<void>
   egsSync: (arg: string) => Promise<string>
   syncGOGSaves: (

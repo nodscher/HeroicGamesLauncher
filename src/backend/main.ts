@@ -6,7 +6,9 @@ import {
   DiskSpaceData,
   StatusPromise,
   GamepadInputEvent,
-  Runner
+  Runner,
+  DMQueueElement,
+  InstallParams
 } from 'common/types'
 import * as path from 'path'
 import {
@@ -114,7 +116,7 @@ import {
   runBeforeLaunchScript,
   runWineCommand
 } from './launcher'
-import { initQueue } from './downloadmanager/downloadqueue'
+import { addToQueue, initQueue } from './downloadmanager/downloadqueue'
 import {
   initOnlineMonitor,
   isOnline,
@@ -1113,6 +1115,54 @@ addIpcHandler('openDialog', async (e, args) => {
 
 addIpcListener('showItemInFolder', async (e, item) => showItemInFolder(item))
 
+addIpcListener('install', async (e, args) => {
+  const dmQueueElement: DMQueueElement = {
+    params: args,
+    type: 'install',
+    addToQueueTime: Date.now(),
+    endTime: 0,
+    startTime: 0
+  }
+
+  await addToQueue(dmQueueElement)
+
+  // Add Dlcs to the queue
+  if (args.installDlcs?.length && args.runner === 'legendary') {
+    for (const dlc of args.installDlcs) {
+      const dlcArgs: InstallParams = {
+        ...args,
+        appName: dlc
+      }
+      const dlcQueueElement: DMQueueElement = {
+        params: dlcArgs,
+        type: 'install',
+        addToQueueTime: Date.now(),
+        endTime: 0,
+        startTime: 0
+      }
+      await addToQueue(dlcQueueElement)
+    }
+  }
+})
+
+addIpcListener('update', (e, args) => {
+  const {
+    gameInfo: {
+      install: { platform, install_path }
+    }
+  } = args
+
+  const dmQueueElement: DMQueueElement = {
+    params: { ...args, path: install_path!, platformToInstall: platform! },
+    type: 'update',
+    addToQueueTime: Date.now(),
+    endTime: 0,
+    startTime: 0
+  }
+
+  addToQueue(dmQueueElement)
+})
+
 addIpcHandler(
   'uninstall',
   async (event, appName, runner, shouldRemovePrefix, shouldRemoveSetting) => {
@@ -1328,54 +1378,6 @@ addIpcHandler(
 addIpcHandler('kill', async (event, appName, runner) => {
   callAbortController(appName)
   return gameManagerMap[runner].stop(appName)
-})
-
-addIpcHandler('updateGame', async (event, appName, runner): StatusPromise => {
-  if (!isOnline()) {
-    logWarning(
-      `App offline, skipping install for game '${appName}'.`,
-      LogPrefix.Backend
-    )
-    return { status: 'error' }
-  }
-
-  const epicOffline = await isEpicServiceOffline()
-  if (epicOffline && runner === 'legendary') {
-    showDialogBoxModalAuto({
-      event,
-      title: i18next.t('box.warning.title', 'Warning'),
-      message: i18next.t(
-        'box.warning.epic.update',
-        'Epic Servers are having major outage right now, the game cannot be updated!'
-      ),
-      type: 'ERROR'
-    })
-    return { status: 'error' }
-  }
-
-  const { title } = gameManagerMap[runner].getGameInfo(appName)
-  notify({
-    title,
-    body: i18next.t('notify.update.started', 'Update Started')
-  })
-
-  let status: 'done' | 'error' | 'abort' = 'error'
-  try {
-    status = (await gameManagerMap[runner].update(appName)).status
-  } catch (error) {
-    logError(error, LogPrefix.Backend)
-    notify({ title, body: i18next.t('notify.update.canceled') })
-    return { status: 'error' }
-  }
-  notify({
-    title,
-    body:
-      status === 'done'
-        ? i18next.t('notify.update.finished')
-        : i18next.t('notify.update.canceled')
-  })
-  logInfo('finished updating', LogPrefix.Backend)
-  return { status }
 })
 
 addIpcHandler('changeInstallPath', async (event, { appName, path, runner }) => {
