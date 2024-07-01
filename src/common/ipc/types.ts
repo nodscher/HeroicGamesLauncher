@@ -181,7 +181,8 @@ export interface AsyncIPCFunctions {
   getAlternativeWine: () => Promise<WineInstallation[]>
   getLocalPeloadPath: () => Promise<string>
   readConfig: (config_class: 'library' | 'user') => Promise<GameInfo[] | string>
-  requestSettings: (appName: string) => Promise<AppSettings | GameSettings>
+  requestAppSettings: () => AppSettings
+  requestGameSettings: (appName: string) => Promise<GameSettings>
   writeConfig: (args: { appName: string; config: Partial<AppSettings> }) => void
   refreshLibrary: (library?: Runner | 'all') => Promise<void>
   launch: (args: LaunchParams) => StatusPromise

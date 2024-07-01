@@ -1,14 +1,11 @@
-import { AppSettings, GameSettings } from 'common/types'
 import {
   makeListenerCaller as lc,
   makeHandlerInvoker as hi
 } from 'common/ipc/frontend'
 
-export const requestAppSettings = async () =>
-  ipcRenderer.invoke('requestSettings', 'default') as Promise<AppSettings>
+export const requestAppSettings = hi('requestAppSettings')
 
-export const requestGameSettings = async (appName: string) =>
-  ipcRenderer.invoke('requestSettings', appName) as Promise<GameSettings>
+export const requestGameSettings = hi('requestGameSettings')
 
 export const setSetting = lc('setSetting')
 

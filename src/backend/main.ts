@@ -114,7 +114,6 @@ import {
   runBeforeLaunchScript,
   runWineCommand
 } from './launcher'
-import shlex from 'shlex'
 import { initQueue } from './downloadmanager/downloadqueue'
 import {
   initOnlineMonitor,
@@ -803,55 +802,10 @@ addIpcHandler('readConfig', async (event, configClass) => {
   return userInfo?.displayName ?? ''
 })
 
-addIpcHandler('requestSettings', async (event, appName) => {
-  // To the changes how we handle env and wrappers
-  // otherOptions is deprectaed and needs to be mapped
-  // to new approach.
-  // Can be removed if otherOptions is removed aswell
-  const mapOtherSettings = (config: AppSettings | GameSettings) => {
-    if (config.otherOptions) {
-      if (config.enviromentOptions.length <= 0) {
-        config.otherOptions
-          .split(' ')
-          .filter((val) => val.indexOf('=') !== -1)
-          .forEach((envKeyAndVar) => {
-            const keyAndValueSplit = envKeyAndVar.split('=')
-            const key = keyAndValueSplit.shift()!
-            const value = keyAndValueSplit.join('=')
-            config.enviromentOptions.push({ key, value })
-          })
-      }
-
-      if (config.wrapperOptions.length <= 0) {
-        const args: string[] = []
-        config.otherOptions
-          .split(' ')
-          .filter((val) => val.indexOf('=') === -1)
-          .forEach((val, index) => {
-            if (index === 0) {
-              config.wrapperOptions.push({ exe: val, args: '' })
-            } else {
-              args.push(val)
-            }
-          })
-
-        if (config.wrapperOptions.at(0)) {
-          config.wrapperOptions.at(0)!.args = shlex.join(args)
-        }
-      }
-
-      delete config.otherOptions
-    }
-    return config
-  }
-
-  if (appName === 'default') {
-    return mapOtherSettings(GlobalConfig.get().getSettings())
-  }
-
-  const config = await GameConfig.get(appName).getSettings()
-  return mapOtherSettings(config)
-})
+addIpcHandler('requestAppSettings', () => GlobalConfig.get().getSettings())
+addIpcHandler('requestGameSettings', async (e, appName) =>
+  GameConfig.get(appName).getSettings()
+)
 
 addIpcHandler('toggleDXVK', async (event, { appName, action }) =>
   GameConfig.get(appName)
