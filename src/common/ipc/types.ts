@@ -327,7 +327,7 @@ export interface FrontendMessages {
   progressOfWineManager: (version: string, progress: WineManagerStatus) => void
   'installing-winetricks-component': (component: string) => void
 
-  [key: `progressUpdate${string}`]: (progress: GameStatus) => void
+  progressUpdate: (progress: GameStatus) => void
 
   // Used inside tests, so we can be a bit lenient with the type checking here
   message: (...params: unknown[]) => void

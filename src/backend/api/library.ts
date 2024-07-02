@@ -1,4 +1,3 @@
-import { GameStatus } from 'common/types'
 import {
   makeListenerCaller as lc,
   makeHandlerInvoker as hi,
@@ -19,15 +18,7 @@ export const importGame = hi('importGame')
 
 export const handleGameStatus = fls('gameStatusUpdate')
 
-export const onProgressUpdate = (
-  appName: string,
-  onChange: (e: Electron.IpcRendererEvent, status: GameStatus) => void
-) => {
-  ipcRenderer.on(`progressUpdate-${appName}`, onChange)
-  return () => {
-    ipcRenderer.removeListener(`progressUpdate-${appName}`, onChange)
-  }
-}
+export const onProgressUpdate = fls('progressUpdate')
 
 export const handleLaunchGame = fls('launchGame')
 
