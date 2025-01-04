@@ -850,9 +850,8 @@ export async function launch(
     mangoHudCommand,
     gameModeBin,
     gameScopeCommand,
-    steamRuntime,
     offlineMode
-  } = await prepareLaunch(gameSettings, gameInfo, isNative(appName))
+  } = await prepareLaunch(gameSettings, gameInfo)
   if (!launchPrepSuccess) {
     appendGamePlayLog(gameInfo, `Launch aborted: ${launchPrepFailReason}`)
     launchCleanup()
@@ -878,8 +877,7 @@ export async function launch(
     gameSettings,
     mangoHudCommand,
     gameModeBin,
-    gameScopeCommand,
-    steamRuntime?.length ? [...steamRuntime] : undefined
+    gameScopeCommand
   )
 
   let wineFlags: AllowedWineFlags = wrappers.length
