@@ -1,6 +1,8 @@
 import { TypeCheckedStoreBackend } from '../../electron_store'
 import { logError, logInfo } from '../../logger/logger'
 
+import { LegendaryGlobalConfigFolderMigration } from './migrations/legendary'
+
 import type { TypeCheckedStore } from 'common/types/electron_store'
 
 export interface Migration {
@@ -61,8 +63,7 @@ export default class MigrationComponent {
   }
 
   private getAllMigrations(): Migration[] {
-    // TODO: Actually add migrations
-    return []
+    return [new LegendaryGlobalConfigFolderMigration()]
   }
 
   private readonly migrationsStore: TypeCheckedStore<'migrationsStore'>
