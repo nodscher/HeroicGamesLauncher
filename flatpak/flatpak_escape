@@ -1,0 +1,27 @@
+#!/bin/bash
+
+unset "XAUTHORITY" "DBUS_SESSION_BUS_ADDRESS" "MEMORY_PRESSURE_WATCH" "PULSE_CLIENTCONFIG" "PULSE_SERVER" "container" "XDG_DATA_HOME" "LD_PRELOAD"
+
+env_args=()
+
+while read -r -d '' line; do
+    env_args+=(--env="$line")
+done < <(env -0)
+
+if [ -v ENABLE_VK_LAYER_VALVE_steam_overlay_1 ]; then
+    env_args+=(--env="LD_PRELOAD=$HOME/.steam/steam/ubuntu12_32/gameoverlayrenderer.so:$HOME/.steam/steam/ubuntu12_64/gameoverlayrenderer.so")
+else
+    env_args+=(--env="LD_PRELOAD=")
+fi
+
+flatpak-spawn --watch-bus --host "${env_args[@]}" "$@" &
+child_pid=$!
+
+cleanup() {
+    kill $child_pid 2>/dev/null
+    [ -v PROTONPATH ] && [ -v WINEPREFIX ] flatpak-spawn --watch-bus --host --env=WINEPREFIX=${WINEPREFIX} ${PROTONPATH}/files/bin/wineserver -k
+    exit
+}
+trap cleanup EXIT SIGINT SIGTERM
+
+wait $child_pid
