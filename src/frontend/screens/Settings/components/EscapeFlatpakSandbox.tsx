@@ -8,7 +8,7 @@ import { isFlatpak } from 'backend/constants/environment'
 const EscapeFlatpakSandbox = () => {
   const { t } = useTranslation()
   const [escapeFlatpakSandbox, setEscapeFlatpakSandbox] = useSetting(
-    'useGameMode',
+    'escapeFlatpakSandbox',
     false
   )
 
