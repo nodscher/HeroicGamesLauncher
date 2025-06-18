@@ -851,6 +851,7 @@ export async function launch(
     rpcClient,
     mangoHudCommand,
     gameModeBin,
+    flatpakescapebin,
     gameScopeCommand,
     steamRuntime,
     offlineMode
@@ -899,6 +900,7 @@ export async function launch(
     gameSettings,
     mangoHudCommand,
     gameModeBin,
+    flatpakescapebin,
     gameScopeCommand,
     steamRuntime?.length ? [...steamRuntime] : undefined
   )

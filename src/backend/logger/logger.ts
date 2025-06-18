@@ -33,6 +33,7 @@ import { Winetricks } from 'backend/tools'
 import { gameAnticheatInfo } from 'backend/anticheat/utils'
 import { isUmuSupported } from 'backend/utils/compatibility_layers'
 import {
+  isFlatpak,
   isLinux,
   isMac,
   isSteamDeck,
@@ -654,6 +655,11 @@ class GameLogWriter extends LogWriter {
       delete gameSettings.eacRuntime
       delete gameSettings.nvidiaPrime
       delete gameSettings.disableUMU
+    }
+
+    // remove settings that are only used in Flatpak
+    if (!isFlatpak) {
+      delete gameSettings.escapeFlatpakSandbox
     }
 
     return gameSettings

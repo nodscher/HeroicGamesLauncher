@@ -222,6 +222,7 @@ export interface GameSettings {
   disableUMU: boolean
   verboseLogs: boolean
   advertiseAvxForRosetta: boolean
+  escapeFlatpakSandbox: boolean
 }
 
 export type Status =
@@ -379,6 +380,7 @@ export interface LaunchPreperationResult {
   rpcClient?: RpcClient
   mangoHudCommand?: string[]
   gameModeBin?: string
+  flatpakescapebin?: string
   gameScopeCommand?: string[]
   steamRuntime?: string[]
   offlineMode?: boolean

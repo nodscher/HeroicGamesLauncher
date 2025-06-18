@@ -343,6 +343,7 @@ class GlobalConfigV0 extends GlobalConfig {
       wrapperOptions: [],
       showFps: false,
       useGameMode: isFlatpak,
+      escapeFlatpakSandbox: false,
       wineCrossoverBottle: 'Heroic',
       winePrefix: isWindows ? '' : defaultWinePrefix,
       wineVersion: defaultWine,

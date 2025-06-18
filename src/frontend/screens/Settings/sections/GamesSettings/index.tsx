@@ -18,6 +18,7 @@ import {
   EnableMsync,
   EnvVariablesTable,
   GameMode,
+  EscapeFlatpakSandbox,
   LauncherArgs,
   Mangohud,
   OfflineMode,
@@ -49,6 +50,7 @@ import { Tabs, Tab } from '@mui/material'
 import { GameInfo } from 'common/types'
 import DisableUMU from '../../components/DisableUMU'
 import VerboseLogs from '../../components/VerboseLogs'
+import { isFlatpak } from 'backend/constants/environment'
 
 const windowsPlatforms = ['Win32', 'Windows', 'windows']
 function getStartingTab(platform: string, gameInfo?: GameInfo | null): string {
@@ -219,6 +221,7 @@ export default function GamesSettings() {
           </>
         )}
         <VerboseLogs />
+        {isFlatpak && <EscapeFlatpakSandbox />}
         <DisableUMU />
         <AlternativeExe />
         <LauncherArgs />

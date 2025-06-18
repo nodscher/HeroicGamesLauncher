@@ -509,6 +509,7 @@ export async function launch(
     mangoHudCommand,
     gameScopeCommand,
     gameModeBin,
+    flatpakescapebin,
     steamRuntime
   } = await prepareLaunch(gameSettings, gameInfo, isNative(appName))
   if (!launchPrepSuccess) {
@@ -542,6 +543,7 @@ export async function launch(
     gameSettings,
     mangoHudCommand,
     gameModeBin,
+    flatpakescapebin,
     gameScopeCommand,
     steamRuntime?.length ? [...steamRuntime] : undefined
   )

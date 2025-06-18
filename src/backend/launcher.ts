@@ -385,6 +385,7 @@ async function prepareLaunch(
   // Figure out where MangoHud/GameMode/Gamescope are located, if they're enabled
   let mangoHudCommand: string[] = []
   let gameModeBin: string | null = null
+  let flatpakescapebin: string | null = null
   const gameScopeCommand: string[] = []
   if (gameSettings.showMangohud && !isSteamDeckGameMode) {
     const mangoHudBin = await searchForExecutableOnPath('mangohud')
@@ -410,6 +411,25 @@ async function prepareLaunch(
         success: false,
         failureReason:
           'GameMode is enabled, but `gamemoderun` executable could not be found on $PATH'
+      }
+    }
+  }
+
+  if (gameSettings.escapeFlatpakSandbox) {
+    if (isFlatpak) {
+      flatpakescapebin = await searchForExecutableOnPath('flatpak-escape')
+      if (!flatpakescapebin) {
+        return {
+          success: false,
+          failureReason:
+            'GameMode is enabled, but `gamemoderun` executable could not be found on $PATH'
+        }
+      }
+    } else {
+      return {
+        success: false,
+        failureReason:
+          'Escaping from the Flatpak sandbox is enabled, but we are not running inside one.'
       }
     }
   }
@@ -576,6 +596,7 @@ async function prepareLaunch(
     rpcClient,
     mangoHudCommand,
     gameModeBin: gameModeBin ?? undefined,
+    flatpakescapebin: flatpakescapebin ?? undefined,
     gameScopeCommand,
     steamRuntime,
     offlineMode
@@ -1092,6 +1113,7 @@ function setupWrappers(
   gameSettings: GameSettings,
   mangoHudCommand?: string[],
   gameModeBin?: string,
+  flatpakescapebin?: string,
   gameScopeCommand?: string[],
   steamRuntime?: string[]
 ): Array<string> {
@@ -1100,6 +1122,10 @@ function setupWrappers(
   // let gamescope be first wrapper always
   if (gameScopeCommand) {
     wrappers.push(...gameScopeCommand)
+  }
+
+  if (flatpakescapebin) {
+    wrappers.push(flatpakescapebin)
   }
 
   if (gameSettings.wrapperOptions) {
