@@ -22,13 +22,13 @@ const EscapeFlatpakSandbox = () => {
         htmlId="escapeflatpaksandbox"
         value={escapeFlatpakSandbox}
         handleChange={() => setEscapeFlatpakSandbox(!escapeFlatpakSandbox)}
-        title={t('setting.escapeFlatpakSandbox')}
+        title={t('setting.escapeFlatpakSandbox', 'Escape the Flatpak Sandbox')}
       />
 
       <InfoIcon
         text={t(
           'help.EscapeFlatpakSandbox',
-          'Enabling this option allows Heroic to escape the Flatpak sandbox, which mainly allows better integration with Steam. Use with caution. You will have to allow Heroic to talk to org.freedesktop.Flatpak on the session bus manually (in Flatseal/ KDE-Systemsettings).'
+          'Enabling this option allows Games to escape the Flatpak sandbox, which mainly allows better integration with Steam. Use with caution. You will have to allow Heroic to talk to org.freedesktop.Flatpak on the session bus manually (in Flatseal/ KDE-Systemsettings).'
         )}
       />
     </div>

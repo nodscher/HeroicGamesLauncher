@@ -330,6 +330,7 @@
         "dxfpslimit": "Sets a frame rate cap for DirectX Games (9-12)",
         "dxvk": "DXVK is a Vulkan-based translational layer for DirectX 9, 10 and 11 games. Enabling may improve compatibility. Might cause issues especially for older DirectX games.",
         "dxvknvapi": "DXVK-NVAPI is an implementation of NVAPI built on top of DXVK and the linux native NVAPI, it allows for the usage of DLSS on Nvidia GPUs.",
+        "EscapeFlatpakSandbox": "Enabling this option allows Games to escape the Flatpak sandbox, which mainly allows better integration with Steam. Use with caution. You will have to allow Heroic to talk to org.freedesktop.Flatpak on the session bus manually (in Flatseal/ KDE-Systemsettings).",
         "esync": "Esync aims to reduce wineserver overhead in CPU-intensive games. Enabling may improve performance.",
         "fsync": "Fsync aims to reduce wineserver overhead in CPU-intensive games. Enabling may improve performance on supported Linux kernels.",
         "game_language": {
@@ -653,7 +654,7 @@
             "updateNow": "Update",
             "updating": "Updating..."
         },
-        "escapeflatpaksandbox": "Escape the Flatpak Sandbox",
+        "escapeFlatpakSandbox": "Escape the Flatpak Sandbox",
         "esync": "Enable Esync",
         "exit-to-tray": "Exit to System Tray",
         "experimental_features": {
