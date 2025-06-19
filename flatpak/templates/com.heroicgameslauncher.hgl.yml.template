@@ -204,7 +204,8 @@ modules:
     build-commands:
       - install -Dm755 flatpak_escape -t /app/bin
     sources:
-      - flatpak_escape
+      - type: file
+        path: flatpak_escape
 
   - name: rsync
     config-opts:
