@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { ToggleSwitch } from 'frontend/components/UI'
 import useSetting from 'frontend/hooks/useSetting'
 import InfoIcon from 'frontend/components/UI/InfoIcon'
-import { isFlatpak } from 'backend/constants/environment'
+import { env } from 'process'
 
 const EscapeFlatpakSandbox = () => {
   const { t } = useTranslation()
@@ -11,6 +11,7 @@ const EscapeFlatpakSandbox = () => {
     'escapeFlatpakSandbox',
     false
   )
+  const isFlatpak = Boolean(env.FLATPAK_ID)
 
   if (!isFlatpak) {
     return <></>
