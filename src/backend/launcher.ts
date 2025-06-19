@@ -417,12 +417,12 @@ async function prepareLaunch(
 
   if (gameSettings.escapeFlatpakSandbox) {
     if (isFlatpak) {
-      flatpakescapebin = await searchForExecutableOnPath('flatpak-escape')
+      flatpakescapebin = await searchForExecutableOnPath('flatpak_escape')
       if (!flatpakescapebin) {
         return {
           success: false,
           failureReason:
-            'GameMode is enabled, but `gamemoderun` executable could not be found on $PATH'
+            'Escaping the Flatpak is enabled, but `flatpak_escape` executable could not be found on $PATH'
         }
       }
     } else {
