@@ -50,7 +50,6 @@ import { Tabs, Tab } from '@mui/material'
 import { GameInfo } from 'common/types'
 import DisableUMU from '../../components/DisableUMU'
 import VerboseLogs from '../../components/VerboseLogs'
-import { env } from 'process'
 
 const windowsPlatforms = ['Win32', 'Windows', 'windows']
 function getStartingTab(platform: string, gameInfo?: GameInfo | null): string {
@@ -85,7 +84,7 @@ export default function GamesSettings() {
     gameInfo?.runner === 'gog' || gameInfo?.runner === 'legendary'
   const isBrowserGame = gameInfo?.install.platform === 'Browser'
   const isSideloaded = gameInfo?.runner === 'sideload'
-  const isFlatpak = Boolean(env.FLATPAK_ID)
+  const isFlatpak = window.isFlatpak
 
   function shouldShowSettings(tab: 'wine' | 'other'): boolean {
     if (tab === 'wine') {
