@@ -20,8 +20,10 @@ const Mangohud = () => {
     if (!showMangohud && escapeFlatpakSandbox && window.isFlatpak) {
       showDialogModal({
         showDialog: true,
-        title: t('settings.gameMode.escapeSandboxEnabled.title'),
-        message: t('settings.gameMode.escapeSandboxEnabled.message'),
+        title: t('settings.EscapeFlatpakSandbox.escapeSandboxEnabled.title'),
+        message: t(
+          'settings.EscapeFlatpakSandbox.escapeSandboxEnabled.message'
+        ),
         buttons: [{ text: t('box.ok') }]
       })
     }

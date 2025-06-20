@@ -43,11 +43,11 @@ const EscapeFlatpakSandbox = () => {
       showDialogModal({
         showDialog: true,
         title: t(
-          'settings.gameMode.escapeSandboxEnabled.title',
+          'settings.EscapeFlatpakSandbox.escapeSandboxEnabled.title',
           'MangoHud, Gamescope and/or GameMode enabled together with Escape Flatpak Sandbox'
         ),
         message: t(
-          'settings.gameMode.escapeSandboxEnabled.message',
+          'settings.EscapeFlatpakSandbox.escapeSandboxEnabled.message',
           'Escaping the Flatpak Sandbox is incompatible with the MangoHud, Gamescope and GameMode in the Flatpak. If you want to use that combination, install them natively and add them in the $PATH or as custom wrapper.'
         ),
         buttons: [{ text: t('box.ok') }]
