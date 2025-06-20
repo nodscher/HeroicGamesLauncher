@@ -1134,13 +1134,12 @@ function setupWrappers(
 ): Array<string> {
   const wrappers: string[] = []
 
-  // let gamescope be first wrapper always
-  if (gameScopeCommand) {
-    wrappers.push(...gameScopeCommand)
-  }
-
   if (flatpakescapebin) {
     wrappers.push(flatpakescapebin)
+  }
+
+  if (gameScopeCommand) {
+    wrappers.push(...gameScopeCommand)
   }
 
   if (gameSettings.wrapperOptions) {
