@@ -12,9 +12,9 @@ const EscapeFlatpakSandbox = () => {
     'escapeFlatpakSandbox',
     false
   )
-  const [useGameMode, setUseGameMode] = useSetting('useGameMode', false)
-  const [showMangohud, setShowMangohud] = useSetting('showMangohud', false)
-  const [gamescope, setGamescope] = useSetting('gamescope', {
+  const [useGameMode] = useSetting('useGameMode', false)
+  const [showMangohud] = useSetting('showMangohud', false)
+  const [gamescope] = useSetting('gamescope', {
     enableUpscaling: false,
     enableLimiter: false,
     enableForceGrabCursor: false,
@@ -43,28 +43,14 @@ const EscapeFlatpakSandbox = () => {
       showDialogModal({
         showDialog: true,
         title: t(
-          'settings.gameMode.eacRuntimeEnabled.title',
-          'MangoHud, Gamescope and/or GameMode enabled'
+          'settings.gameMode.escapeSandboxEnabled.title',
+          'MangoHud, Gamescope and/or GameMode enabled together with Escape Flatpak Sandbox'
         ),
         message: t(
-          'settings.gameMode.eacRuntimeEnabled.message',
-          'Escaping the Flatpak Sandbox is incompatible with the MangoHud, Gamescope and GameMode in the Flatpak. If you want to use them install them natively and add those in the $PATH or as wrapper. Do you want to disable MangoHud, Gamescope and GameMode?'
+          'settings.gameMode.escapeSandboxEnabled.message',
+          'Escaping the Flatpak Sandbox is incompatible with the MangoHud, Gamescope and GameMode in the Flatpak. If you want to use that combination, install them natively and add them in the $PATH or as custom wrapper.'
         ),
-        buttons: [
-          {
-            text: t('box.yes'),
-            onClick: () => {
-              setShowMangohud(false)
-              setUseGameMode(false)
-              setGamescope({
-                ...gamescope,
-                enableLimiter: false,
-                enableUpscaling: false
-              })
-            }
-          },
-          { text: t('box.no') }
-        ]
+        buttons: [{ text: t('box.ok') }]
       })
     }
     setEscapeFlatpakSandbox(!escapeFlatpakSandbox)
