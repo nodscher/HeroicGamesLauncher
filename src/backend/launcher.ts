@@ -387,10 +387,24 @@ async function prepareLaunch(
   let gameModeBin: string | null = null
   let flatpakescapebin: string | null = null
   const gameScopeCommand: string[] = []
+
+  if (gameSettings.escapeFlatpakSandbox) {
+    if (isFlatpak) {
+      flatpakescapebin = await searchForExecutableOnPath('flatpak_escape')
+      if (!flatpakescapebin) {
+        return {
+          success: false,
+          failureReason:
+            'Escaping the Flatpak is enabled, but `flatpak_escape` executable could not be found on $PATH. Something is wrong with your installation.'
+        }
+      }
+    }
+  }
+
   if (gameSettings.showMangohud && !isSteamDeckGameMode) {
     let mangoHudBin: string | null = null
 
-    if (gameSettings.escapeFlatpakSandbox) {
+    if (flatpakescapebin) {
       mangoHudBin = 'mangohud'
     } else {
       mangoHudBin = await searchForExecutableOnPath('mangohud')
@@ -411,7 +425,7 @@ async function prepareLaunch(
   }
 
   if (gameSettings.useGameMode) {
-    if (gameSettings.escapeFlatpakSandbox) {
+    if (flatpakescapebin) {
       gameModeBin = 'gamemoderun'
     } else {
       gameModeBin = await searchForExecutableOnPath('gamemoderun')
@@ -425,32 +439,13 @@ async function prepareLaunch(
     }
   }
 
-  if (gameSettings.escapeFlatpakSandbox) {
-    if (isFlatpak) {
-      flatpakescapebin = await searchForExecutableOnPath('flatpak_escape')
-      if (!flatpakescapebin) {
-        return {
-          success: false,
-          failureReason:
-            'Escaping the Flatpak is enabled, but `flatpak_escape` executable could not be found on $PATH'
-        }
-      }
-    } else {
-      return {
-        success: false,
-        failureReason:
-          'Escaping from the Flatpak sandbox is enabled, but we are not running inside one.'
-      }
-    }
-  }
-
   if (
     (gameSettings.gamescope?.enableLimiter ||
       gameSettings.gamescope?.enableUpscaling) &&
     !isSteamDeckGameMode
   ) {
     let gameScopeBin: string | null = null
-    if (gameSettings.escapeFlatpakSandbox) {
+    if (flatpakescapebin) {
       gameScopeBin = 'gamescope'
     } else {
       gameScopeBin = await searchForExecutableOnPath('gamescope')
