@@ -828,6 +828,7 @@
             }
         },
         "gamescope": {
+            "flatpakEscapeWarning": "Warning: Flatpak sandbox escape is enabled. If you want to use Gamscope, make sure it is installed and in the $PATH outside of the Flatpak or disable escaping the Sandox.",
             "searchMsg": "Searching for gamescope executable."
         },
         "log": {
