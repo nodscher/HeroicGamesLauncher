@@ -35,6 +35,7 @@ const Gamescope = () => {
   const [additionalOptions, setAdditionalOptions] = useState(
     gamescope.additionalOptions
   )
+  const [escapeFlatpakSandbox] = useSetting('escapeFlatpakSandbox', false)
 
   useEffect(() => {
     setFetching(true)
@@ -121,6 +122,15 @@ const Gamescope = () => {
 
   return (
     <div className="gamescopeSettings">
+      {/* Flatpak Escape Warning */}
+      {escapeFlatpakSandbox && window.isFlatpak && (
+        <div style={{ color: 'orange', marginBottom: 12 }}>
+          {t(
+            'settings.gamescope.flatpakEscapeWarning',
+            'Warning: Flatpak sandbox escape is enabled. If you want to use Gamscope, make sure it is installed and in the $PATH outside of the Flatpak or disable escaping the Sandox.'
+          )}
+        </div>
+      )}
       {/* Enable Upscale */}
       <div className="toggleRow">
         <ToggleSwitch

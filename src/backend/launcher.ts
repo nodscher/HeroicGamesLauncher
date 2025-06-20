@@ -388,7 +388,13 @@ async function prepareLaunch(
   let flatpakescapebin: string | null = null
   const gameScopeCommand: string[] = []
   if (gameSettings.showMangohud && !isSteamDeckGameMode) {
-    const mangoHudBin = await searchForExecutableOnPath('mangohud')
+    let mangoHudBin: string | null = null
+
+    if (gameSettings.escapeFlatpakSandbox) {
+      mangoHudBin = 'mangohud'
+    } else {
+      mangoHudBin = await searchForExecutableOnPath('mangohud')
+    }
     if (!mangoHudBin) {
       let reason =
         'Mangohud is enabled, but `mangohud` executable could not be found on $PATH'
@@ -405,7 +411,11 @@ async function prepareLaunch(
   }
 
   if (gameSettings.useGameMode) {
-    gameModeBin = await searchForExecutableOnPath('gamemoderun')
+    if (gameSettings.escapeFlatpakSandbox) {
+      gameModeBin = 'gamemoderun'
+    } else {
+      gameModeBin = await searchForExecutableOnPath('gamemoderun')
+    }
     if (!gameModeBin) {
       return {
         success: false,
@@ -439,7 +449,12 @@ async function prepareLaunch(
       gameSettings.gamescope?.enableUpscaling) &&
     !isSteamDeckGameMode
   ) {
-    const gameScopeBin = await searchForExecutableOnPath('gamescope')
+    let gameScopeBin: string | null = null
+    if (gameSettings.escapeFlatpakSandbox) {
+      gameScopeBin = 'gamescope'
+    } else {
+      gameScopeBin = await searchForExecutableOnPath('gamescope')
+    }
     if (!gameScopeBin) {
       let warningMessage =
         'Gamescope is enabled, but `gamescope` executable could not be found on $PATH'

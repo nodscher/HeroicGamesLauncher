@@ -11,6 +11,10 @@ const GameMode = () => {
   const isLinux = platform === 'linux'
   const [useGameMode, setUseGameMode] = useSetting('useGameMode', false)
   const [eacRuntime, setEacRuntime] = useSetting('eacRuntime', false)
+  const [escapeFlatpakSandbox, setEscapeFlatpakSandbox] = useSetting(
+    'escapeFlatpakSandbox',
+    false
+  )
 
   if (!isLinux) {
     return <></>
@@ -40,6 +44,28 @@ const GameMode = () => {
           ]
         })
       }
+    }
+    if (!useGameMode && escapeFlatpakSandbox && window.isFlatpak) {
+      showDialogModal({
+        showDialog: true,
+        title: t(
+          'settings.gameMode.eacRuntimeEnabled.title',
+          'Escape Flatpak Sandbox enabled'
+        ),
+        message: t(
+          'settings.gameMode.eacRuntimeEnabled.message',
+          'Escaping the Flatpak Sandbox is incompatible with the GameMode and MangoHud in the Flatpak. If you want to use them install them natively and add those in the $PATH or as wrapper. Do you want to disable the escaping of the Flatpak Sandbox?'
+        ),
+        buttons: [
+          {
+            text: t('box.yes'),
+            onClick: () => {
+              setEscapeFlatpakSandbox(false)
+            }
+          },
+          { text: t('box.no') }
+        ]
+      })
     }
     setUseGameMode(!useGameMode)
   }
