@@ -33,6 +33,7 @@ jobs:
       - name: Build Flatpak
         uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
+          branch: stable
           bundle: heroicgameslauncher.flatpak
           manifest-path: flatpak-build/com.heroicgameslauncher.hgl.yml
           cache-key: flatpak-builder-${{ github.sha }}
