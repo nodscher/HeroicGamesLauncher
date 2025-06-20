@@ -2,7 +2,7 @@
 
 set -e
 
-unset "XAUTHORITY" "DBUS_SESSION_BUS_ADDRESS" "MEMORY_PRESSURE_WATCH" "PULSE_CLIENTCONFIG" "PULSE_SERVER" "container" "XDG_DATA_HOME" "LD_PRELOAD"
+unset "AT_SPI_BUS_ADDRES" "container" "DBUS_SESSION_BUS_ADDRESS" "DBUS_SYSTEM_BUS_ADDRESS" "DISPLAY" "LD_LIBRARY_PATH" "LD_PRELOAD" "MEMORY_PRESSURE_WATCH" "PULSE_CLIENTCONFIG" "PULSE_SERVER" "SHELL" "SHELL_SESSION_ID" "XAUTHORITY" "XDG_CACHE_HOME" "XDG_CONFIG_DIRS" "XDG_CONFIG_HOME" "XDG_DATA_DIRS" "XDG_DATA_HOME" "XDG_STATE_HOME" "ZYPAK_BIN" "ZYPAK_LIB"
 
 env_args=()
 
@@ -11,9 +11,7 @@ while read -r -d '' line; do
 done < <(env -0)
 
 if [ -v ENABLE_VK_LAYER_VALVE_steam_overlay_1 ]; then
-    env_args+=(--env="LD_PRELOAD=$HOME/.steam/steam/ubuntu12_32/gameoverlayrenderer.so:$HOME/.steam/steam/ubuntu12_64/gameoverlayrenderer.so")
-else
-    env_args+=(--env="LD_PRELOAD=")
+    env_args+=(--env="LD_PRELOAD=${STEAM_BASE_FOLDER:-$HOME/.local/share/Steam}/ubuntu12_32/gameoverlayrenderer.so:${STEAM_BASE_FOLDER:-$HOME/.local/share/Steam}/ubuntu12_64/gameoverlayrenderer.so")
 fi
 
 flatpak-spawn --watch-bus --host "${env_args[@]}" "$@" &
