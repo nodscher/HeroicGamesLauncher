@@ -21,7 +21,7 @@ fi
 # If we are running in Steams Gamemode the window will not be brought to the front due to https://github.com/ValveSoftware/gamescope/issues/1341
 # In this case this even happens without the steam runtime, but because we will be outside of the flatpak sandbox we can use the steam reaper to work around this
 steamReaper=()
-# conditions copied from umu
+# conditions mainly copied from umu
 if [ -v SteamGameId ] && [[ "$STEAM_MULTIPLE_XWAYLANDS" = 1 ]] && ([[ "$XDG_SESSION_DESKTOP" = "gamescope" ]] || [[ "$XDG_CURRENT_DESKTOP" = "gamescope" ]]); then
     # SteamGameId is to big for bash, so we need to use python; the first 32 bits are the appId
     appId=$(python -c "print(${SteamGameId}>>32)")

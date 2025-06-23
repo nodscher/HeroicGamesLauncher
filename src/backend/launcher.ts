@@ -385,13 +385,13 @@ async function prepareLaunch(
   // Figure out where MangoHud/GameMode/Gamescope are located, if they're enabled
   let mangoHudCommand: string[] = []
   let gameModeBin: string | null = null
-  let flatpakescapebin: string | null = null
+  let flatpakEscapeBin: string | null = null
   const gameScopeCommand: string[] = []
 
   if (gameSettings.escapeFlatpakSandbox) {
     if (isFlatpak) {
-      flatpakescapebin = await searchForExecutableOnPath('flatpak_escape')
-      if (!flatpakescapebin) {
+      flatpakEscapeBin = await searchForExecutableOnPath('flatpak_escape')
+      if (!flatpakEscapeBin) {
         return {
           success: false,
           failureReason:
@@ -404,7 +404,7 @@ async function prepareLaunch(
   if (gameSettings.showMangohud && !isSteamDeckGameMode) {
     let mangoHudBin: string | null = null
 
-    if (flatpakescapebin) {
+    if (flatpakEscapeBin) {
       mangoHudBin = 'mangohud'
     } else {
       mangoHudBin = await searchForExecutableOnPath('mangohud')
@@ -425,7 +425,7 @@ async function prepareLaunch(
   }
 
   if (gameSettings.useGameMode) {
-    if (flatpakescapebin) {
+    if (flatpakEscapeBin) {
       gameModeBin = 'gamemoderun'
     } else {
       gameModeBin = await searchForExecutableOnPath('gamemoderun')
@@ -445,7 +445,7 @@ async function prepareLaunch(
     !isSteamDeckGameMode
   ) {
     let gameScopeBin: string | null = null
-    if (flatpakescapebin) {
+    if (flatpakEscapeBin) {
       gameScopeBin = 'gamescope'
     } else {
       gameScopeBin = await searchForExecutableOnPath('gamescope')
@@ -606,7 +606,7 @@ async function prepareLaunch(
     rpcClient,
     mangoHudCommand,
     gameModeBin: gameModeBin ?? undefined,
-    flatpakescapebin: flatpakescapebin ?? undefined,
+    flatpakescapebin: flatpakEscapeBin ?? undefined,
     gameScopeCommand,
     steamRuntime,
     offlineMode
