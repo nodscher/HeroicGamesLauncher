@@ -39,6 +39,11 @@ const Gamescope = () => {
 
   useEffect(() => {
     setFetching(true)
+    if (escapeFlatpakSandbox && window.isFlatpak) {
+      setIsInstalled(true)
+      setFetching(false)
+      return
+    }
     window.api
       .hasExecutable('gamescope')
       .then((installed) => {
@@ -124,7 +129,7 @@ const Gamescope = () => {
     <div className="gamescopeSettings">
       {/* Flatpak Escape Warning */}
       {escapeFlatpakSandbox && window.isFlatpak && (
-        <div style={{ color: 'orange', marginBottom: 12 }}>
+        <div style={{ color: 'orange' }}>
           {t(
             'settings.gamescope.flatpakEscapeWarning',
             'Warning: Flatpak sandbox escape is enabled. If you want to use Gamscope, make sure it is installed and in the $PATH outside of the Flatpak or disable escaping the Sandox.'
