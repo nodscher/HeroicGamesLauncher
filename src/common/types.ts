@@ -238,6 +238,7 @@ export interface GameSettings {
   verboseLogs: boolean
   advertiseAvxForRosetta: boolean
   enableQuickSavesMenu: boolean
+  escapeFlatpakSandbox: boolean
 }
 
 export type Status =
@@ -414,6 +415,7 @@ export interface LaunchPreperationResult {
   gameScopeCommand?: string[]
   steamRuntime?: string[]
   offlineMode?: boolean
+  flatpakEscapeBin?: string
 }
 
 export interface RpcClient {

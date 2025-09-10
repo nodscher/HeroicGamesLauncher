@@ -240,7 +240,8 @@ class GameConfigV0 extends GameConfig {
       afterLaunchScriptPath,
       gamescope,
       verboseLogs,
-      advertiseAvxForRosetta
+      advertiseAvxForRosetta,
+      escapeFlatpakSandbox
     } = GlobalConfig.get().getSettings()
 
     // initialize generic defaults
@@ -280,7 +281,8 @@ class GameConfigV0 extends GameConfig {
       gamescope,
       verboseLogs,
       advertiseAvxForRosetta,
-      enableQuickSavesMenu: false
+      enableQuickSavesMenu: false,
+      escapeFlatpakSandbox
     } as GameSettings
 
     let gameSettings = {} as GameSettings
