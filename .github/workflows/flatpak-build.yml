@@ -36,3 +36,4 @@ jobs:
           bundle: heroicgameslauncher.flatpak
           manifest-path: flatpak-build/com.heroicgameslauncher.hgl.yml
           cache-key: flatpak-builder-${{ github.sha }}
+          branch: stable
